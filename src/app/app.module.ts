@@ -1,28 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
-
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CommonModule } from '@angular/common';
-import { EllipsisPipe } from './ellipsis.pipe';
-import { HighlightDirective } from './highlight.directive';
-import { DisplayInfoComponent } from './display-info/display-info.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EllipsisPipe,
-    HighlightDirective,
-    DisplayInfoComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    CommonModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, FormsModule, CommonModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
