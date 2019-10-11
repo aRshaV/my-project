@@ -1,1 +1,67 @@
-<button type="button" (click)="addProduct()">Add Product</button>
+<form class="mt-md-5" #form="ngForm" (submit)="addProduct()" novalidate>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        name="name"
+        placeholder="Product Name"
+        [(ngModel)]="product.name"
+        required
+      />
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="quantity">Quantity</label>
+        <input
+          type="text"
+          class="form-control"
+          id="quantity"
+          name="quantity"
+          placeholder="0"
+          [(ngModel)]="product.quantity"
+          required
+        />
+      </div>
+  
+      <div class="form-group col-md-4">
+        <label for="price">Price</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">€</div>
+          </div>
+          <input
+            #price="ngModel"
+            type="text"
+            class="form-control"
+            id="price"
+            name="price"
+            placeholder="0.00"
+            [(ngModel)]="product.price"
+            pattern="^[0-9]+(\.[0-9]{1,2})?$"
+          />
+          <div class="invalid-feedback" [hidden]="price.valid || price.untouched">
+            Invalid Price
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group col-md-4">
+        <label for="category">Category</label>
+        <select
+          id="category"
+          name="category"
+          class="form-control"
+          [(ngModel)]="product.category"
+        >
+          <option></option>
+          <option *ngFor="let category of categories" [ngValue]="category">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+  
