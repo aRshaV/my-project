@@ -8,9 +8,10 @@ import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { ProductDetailsComponent } from './products/product-details/product-details.component';
+import { ForbiddenValidatorDirective } from './shared/forbidden-validator.directive';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavComponent, ProductListComponent, ProductDetailsComponent],
+  declarations: [AppComponent, HomeComponent, NavComponent, ProductListComponent, ProductDetailsComponent, ForbiddenValidatorDirective],
   imports: [BrowserModule, FormsModule, CommonModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
