@@ -1,4 +1,4 @@
-<form class="mt-md-5" #form="ngForm" (submit)="addProduct()" novalidate>
+<form class="mt-md-5" [formGroup]="form" (submit)="addProduct()">
     <div class="form-group">
       <label for="name">Name</label>
       <input
@@ -7,9 +7,7 @@
         id="name"
         name="name"
         placeholder="Product Name"
-        [(ngModel)]="product.name"
-        required
-        appForbiddenName="bob"
+        formControlName="name"
       />
     </div>
     <div class="form-row">
@@ -21,8 +19,7 @@
           id="quantity"
           name="quantity"
           placeholder="0"
-          [(ngModel)]="product.quantity"
-          required
+          formControlName="quantity"
         />
       </div>
   
@@ -33,16 +30,14 @@
             <div class="input-group-text">€</div>
           </div>
           <input
-            #price="ngModel"
             type="text"
             class="form-control"
             id="price"
             name="price"
             placeholder="0.00"
-            [(ngModel)]="product.price"
-            pattern="^[0-9]+(\.[0-9]{1,2})?$"
+            formControlName="price"
           />
-          <div class="invalid-feedback" [hidden]="price.valid || price.untouched">
+          <div class="invalid-feedback" [hidden]="form.get('price').valid && form.get('price').untouched">
             Invalid Price
           </div>
         </div>
@@ -54,7 +49,7 @@
           id="category"
           name="category"
           class="form-control"
-          [(ngModel)]="product.category"
+          formControlName="category"
         >
           <option></option>
           <option *ngFor="let category of categories" [ngValue]="category">

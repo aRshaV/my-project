@@ -44,8 +44,8 @@ export class ProductsService {
   }
 
   updateProduct(product: Products): void {
-    let productFound = this.getProductById(product.id);
-    productFound = product;
+    const index = this.products.findIndex(p => p.id === product.id);
+    this.products[index] = product;
   }
 
   getCategories(): Array<Category> {
