@@ -1,51 +1,41 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Products } from './products.interface';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Category } from './category.interface';
+import { Products } from './products.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  products: Array<Products>;
+  private URI = environment.server + '/products';
+  private products;
+  constructor(private http: HttpClient) {}
 
-  constructor() {
-    this.products = [
-      {
-        id: 1,
-        name: 'iPhone 11',
-        quantity: 1,
-        price: '850',
-        category: { name: 'Smartphone', id: 1 } as Category
-      } as Products,
-      {
-        id: 2,
-        name: 'iPad',
-        quantity: 10,
-        price: '700',
-        category: { name: 'Tablet', id: 2 } as Category
-      } as Products
-    ];
+  getProducts(): Observable<Array<Products>> {
+    return this.http.get<Array<Products>>(this.URI);
   }
 
-  getProducts(): Array<Products> {
-    return this.products;
-  }
-
-  getProductById(id: number): Products {
-    return this.products.find(product => product.id === id);
+  getProductById(id: number): Observable<Products> {
+    return this.http.get<Products>(this.URI + `/${id}`);
   }
 
   addProduct(product: Products): void {
-    product.id =
-      this.products.length > 0
-        ? this.products[this.products.length - 1].id + 1
-        : 1;
-    this.products.push(product);
+    this.http
+      .post(this.URI, product)
+      .pipe(
+        catchError(e => {
+          console.error(e);
+          return of(`Bad Promise: ${e}`);
+        })
+      )
+      .subscribe(console.log);
   }
 
   updateProduct(product: Products): void {
-    const index = this.products.findIndex(p => p.id === product.id);
-    this.products[index] = product;
+    this.http.put(this.URI, product);
   }
 
   getCategories(): Array<Category> {
@@ -56,7 +46,6 @@ export class ProductsService {
   }
 
   delete(id: number): void {
-    const index = this.products.findIndex(product => product.id === id);
-    this.products.splice(index, 1);
+    this.http.delete(this.URI + `/${id}`);
   }
 }

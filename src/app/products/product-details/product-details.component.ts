@@ -34,17 +34,18 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id > 0) {
-      const product = this.productsService.getProductById(id);
-      this.form.patchValue(product);
-      if (!!product.category) {
-        this.form
-          .get('category')
-          .setValue(
-            this.categories.find(
-              category => category.id === product.category.id
-            )
-          );
-      }
+      this.productsService.getProductById(id).subscribe(product => {
+        this.form.patchValue(product);
+        if (!!product.category) {
+          this.form
+            .get('category')
+            .setValue(
+              this.categories.find(
+                category => category.id === product.category.id
+              )
+            );
+        }
+      });
     }
   }
 

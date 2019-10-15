@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Products } from '../products.interface';
 import { ProductsService } from '../products.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -8,10 +9,9 @@ import { ProductsService } from '../products.service';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  products: Array<Products>;
+  products: Observable<Array<Products>>;
 
   constructor(private productsService: ProductsService) {
-    this.products = [];
   }
 
   ngOnInit() {
@@ -20,5 +20,6 @@ export class ProductListComponent implements OnInit {
 
   delete(id: number): void {
     this.productsService.delete(id);
+    this.products = this.productsService.getProducts();
   }
 }
