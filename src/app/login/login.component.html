@@ -1,0 +1,32 @@
+<form class="form-signin my-5" [formGroup]="form" (submit)="signIn()">
+  <div class="text-center mb-4">
+    <h1 class="h3 mb-3 font-weight-normal">My Project</h1>
+  </div>
+
+  <div class="form-label-group">
+    <input
+      type="email"
+      id="inputEmail"
+      class="form-control"
+      placeholder="Email address"
+      formControlName="email"
+    />
+    <label for="inputEmail">Email address</label>
+  </div>
+
+  <div class="form-label-group">
+    <input
+      type="password"
+      id="inputPassword"
+      class="form-control"
+      placeholder="Password"
+      formControlName="password"
+    />
+    <label for="inputPassword">Password</label>
+  </div>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">
+    Sign in
+  </button>
+  <p class="mt-5 mb-3 text-muted text-center">© 2017-2019</p>
+</form>
