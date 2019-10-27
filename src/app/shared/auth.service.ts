@@ -7,13 +7,15 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  private serverUri = environment.server + 'auth';
+
   constructor(private http: HttpClient) {}
 
   signIn(body: any): Observable<any> {
-    return this.http.post(environment.server + 'auth', body);
+    return this.http.post(this.serverUri, body);
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.http.get<boolean>(environment.server + 'auth');
+    return this.http.get<boolean>(this.serverUri);
   }
 }

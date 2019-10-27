@@ -1,51 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Products } from './products.interface';
+import { Product } from './products.interface';
 import { Category } from './category.interface';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  products: Array<Products>;
+  private serverUri = environment.server + 'product';
 
-  constructor() {
-    this.products = [
-      {
-        id: 1,
-        name: 'iPhone 11',
-        quantity: 1,
-        price: '850',
-        category: { name: 'Smartphone', id: 1 } as Category
-      } as Products,
-      {
-        id: 2,
-        name: 'iPad',
-        quantity: 10,
-        price: '700',
-        category: { name: 'Tablet', id: 2 } as Category
-      } as Products
-    ];
+  constructor(private http: HttpClient) {}
+
+  save(product: Product): Observable<any> {
+    if (product.id > 0) {
+      return this.updateProduct(product);
+    } else {
+      return this.addProduct(product);
+    }
   }
 
-  getProducts(): Array<Products> {
-    return this.products;
+  getProducts(): Observable<Array<Product>> {
+    return this.http.get<Array<Product>>(this.serverUri);
   }
 
-  getProductById(id: number): Products {
-    return this.products.find(product => product.id === id);
-  }
-
-  addProduct(product: Products): void {
-    product.id =
-      this.products.length > 0
-        ? this.products[this.products.length - 1].id + 1
-        : 1;
-    this.products.push(product);
-  }
-
-  updateProduct(product: Products): void {
-    let productFound = this.getProductById(product.id);
-    productFound = product;
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(this.serverUri + `/${id}`);
   }
 
   getCategories(): Array<Category> {
@@ -55,8 +36,15 @@ export class ProductsService {
     ];
   }
 
-  delete(id: number): void {
-    const index = this.products.findIndex(product => product.id === id);
-    this.products.splice(index, 1);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.serverUri + `/${id}`);
+  }
+
+  private addProduct(product: Product): Observable<any> {
+    return this.http.post<any>(this.serverUri, product);
+  }
+
+  private updateProduct(product: Product): Observable<void> {
+    return this.http.put<void>(this.serverUri + `/${product.id}`, product);
   }
 }

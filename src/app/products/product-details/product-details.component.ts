@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  Validators,
-  FormGroup,
-  FormControl
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forbiddenNameValidator } from 'src/app/shared/forbidden-validator.directive';
 import { Category } from '../category.interface';
-import { Products } from '../products.interface';
 import { ProductsService } from '../products.service';
 
 @Component({
@@ -40,29 +34,27 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id > 0) {
-      const product = this.productsService.getProductById(id);
-      this.form.patchValue(product);
-      if (!!product.category) {
-        this.form
-          .get('category')
-          .setValue(
-            this.categories.find(
-              category => category.id === product.category.id
-            )
-          );
-        this.form.get('category').setValidators(Validators.required);
-      }
+      this.productsService.getProductById(id).subscribe(product => {
+        this.form.patchValue(product);
+        if (!!product.category) {
+          this.form
+            .get('category')
+            .setValue(
+              this.categories.find(
+                category => category.id === product.category.id
+              )
+            );
+          this.form.get('category').setValidators(Validators.required);
+        }
+      });
     }
   }
 
   addProduct(): void {
     if (this.form.valid) {
-      if (this.form.get('id').value > 0) {
-        this.productsService.updateProduct(this.form.value);
-      } else {
-        this.productsService.addProduct(this.form.value);
-      }
-      this.router.navigateByUrl('products');
+      this.productsService.save(this.form.value).subscribe(() => {
+        this.router.navigateByUrl('products');
+      });
     }
   }
 }
