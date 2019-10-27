@@ -7,16 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
-import { ProductDetailsComponent } from './products/product-details/product-details.component';
-import { ProductListComponent } from './products/product-list/product-list.component';
 import { ForbiddenValidatorDirective } from './shared/forbidden-validator.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    ProductListComponent,
-    ProductDetailsComponent,
     ForbiddenValidatorDirective,
     LoginComponent
   ],
