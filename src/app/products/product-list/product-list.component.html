@@ -1,3 +1,12 @@
+<input
+  class="form-control mr-sm-2"
+  type="search"
+  placeholder="Search"
+  aria-label="Search"
+  [(ngModel)]="param"
+  (ngModelChange)="onChange($event)"
+/>
+
 <table class="table">
   <thead>
     <tr>
@@ -14,11 +23,23 @@
       <th scope="row">{{ product.id }}</th>
       <td>{{ product.name }}</td>
       <td>{{ product.quantity }}</td>
-      <td>{{ product.price | currency:'EUR' }}</td>
+      <td>{{ product.price | currency: 'EUR' }}</td>
       <td>{{ product.category?.name }}</td>
       <td>
-        <button type="button" class="btn btn-light" [routerLink]="['/product', product.id, 'details']">Edit</button>
-        <button type="button" class="btn btn-light" (click)="delete(product.id)">Delete</button>
+        <button
+          type="button"
+          class="btn btn-light"
+          [routerLink]="['/products', product.id, 'details']"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="delete(product.id)"
+        >
+          Delete
+        </button>
       </td>
     </tr>
   </tbody>
